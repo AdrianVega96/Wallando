@@ -198,7 +198,7 @@ function App() {
             <Profile handleLogout={handleLogout} userData={userData} userToken={userToken} />
           </Route>
           <Route path="/pedidos">
-            <ListaPedidos />
+            <ListaPedidos userData={userData} userToken={userToken}/>
           </Route>
           <Redirect to="/home"></Redirect>
         </Switch>
