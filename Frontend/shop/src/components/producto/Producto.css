@@ -56,3 +56,76 @@
 .producto-not-found {
   grid-column: span 2;
 }
+
+/* cesta producto */
+.cart-body {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing);
+}
+
+.cest-item {
+  display: grid;
+  margin-top: var(--spacing);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 5rem), 1fr));
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cest-item>* {
+  text-align: center;
+}
+
+.producto-nombre {
+  grid-column: span 2;
+  text-align: start;
+  font-weight: bold;
+}
+
+.producto-control {
+  grid-column: span 3;
+  display: grid;
+  grid-template-columns: minmax(10rem, 90%) 10%;
+}
+
+#producto-cantidad {
+  max-width: 50%;
+  text-align: center;
+}
+
+.producto-control>.input-group {
+  height: fit-content;
+  justify-content: center;
+}
+
+.CestaProducto {
+  display: flex;
+}
+.ResumenPedido {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  padding: var(--spacing);
+  margin-right: var(--spacing);
+  border: 1px solid var(--border-color);
+  height: fit-content;
+  margin-top: 6rem;
+}
+.precio-total {
+  display: flex;
+  align-items: flex-end;
+  font-size: 1.5rem;
+  padding-block: var(--spacing);
+}
+span.texto {
+  font-weight: bold;
+  width: 50%;
+  text-align: left;
+}
+span.total {
+  width: 50%;
+  text-align: right;
+}
+.precio-cantidad {
+  text-align: right;
+}
