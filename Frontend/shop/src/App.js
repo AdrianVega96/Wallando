@@ -8,6 +8,7 @@ import Register from "./components/login/Register";
 import FiltroProducto from "./components/producto/FiltroProducto";
 import ListaProducto from "./components/producto/ListaProducto";
 import ProductoID from "./components/producto/ProductoID";
+import Profile from "./components/usuario/Profile";
 import {
   BrowserRouter as Router,
   Route,
@@ -27,7 +28,7 @@ function App() {
   const [ordenar, setOrdenar] = useState("");
   // Usuarios
   const [isLogged, setIsLogged] = useState(false);
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState("");
   const [userToken, setUserToken] = useState("");
 
   const handleUser = (token, user) => {
@@ -38,6 +39,13 @@ function App() {
       "userData",
       JSON.stringify({ userData: user, token: token })
     );
+  };
+
+  const handleLogout = () => {
+    setUserToken("");
+    setUserData("");
+    setIsLogged(false);
+    localStorage.removeItem("userData");
   };
 
   const filtrarProductos = (buscar) => {
@@ -87,12 +95,13 @@ function App() {
   useEffect(() => getAllProducts(), []);
   useEffect(() => filtrarProductos(busqueda), [categoria, busqueda]);
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('userData'));
+    const userData = JSON.parse(localStorage.getItem("userData"));
     if (userData && userData.token) {
       setUserToken(userData.token);
       setUserData(userData.userData);
-  }
-}, []);
+      setIsLogged(true);
+    }
+  }, []);
   return (
     <div className="App">
       <Router>
@@ -120,7 +129,7 @@ function App() {
             <Register handleUser={handleUser} />
           </Route>
           <Route path="/profile">
-
+            <Profile handleLogout={handleLogout} userData={userData} userToken={userToken} />
           </Route>
           <Redirect to="/home"></Redirect>
         </Switch>
