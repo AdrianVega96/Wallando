@@ -41,5 +41,5 @@ mongoose
     `mongodb+srv://${process.env.MONGO_DB_USER}:${process.env.MONGO_DB_PASSWORD}@${process.env.MONGO_DB_CLUSTER}/${process.env.MONGO_DB_DBNAME}?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
   )
-  .then(() => app.listen(5000, () => console.log("Escuchando...")))
+  .then(() => app.listen(process.env.PORT, () => console.log("Escuchando... PUERTO " + process.env.PORT)))
   .catch((error) => console.log(error));
