@@ -2,8 +2,12 @@ import React from "react";
 import "./Register.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
+import axios from "axios";
 
 const Register = (props) => {
+  const history = useHistory();
+  const handleUser = props.handleUser;
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -64,10 +68,6 @@ const Register = (props) => {
       setEmptyFields(true);
       return null;
     }
-    // if (clients.some((client) => client.email === newEmail)) {
-    //   setEmailExists(true);
-    //   return null;
-    // }
     if (newPassword !== newRepeatedPassword) {
       setPasswordError(true);
       return null;
@@ -77,19 +77,11 @@ const Register = (props) => {
       return null;
     }
     const newClient = {
-      contraseña: newPassword,
+      password: newPassword,
       email: newEmail,
-      datosEnvio: {
-        nombre: newName,
-        direccion: "",
-        codigoPostal: "",
-      },
-      credito: 0,
-      carrito: [],
-      compras: [],
-      admin: false,
+      nombre: newName,
     };
-    // setClients([...clients, newClient]);
+    manageRegister(newClient);
     setNewName("");
     setNewEmail("");
     setNewPassword("");
@@ -97,20 +89,33 @@ const Register = (props) => {
     setPasswordError(false);
     setEmailExists(false);
     setCheckConditions(false);
+    history.push("/");
+  };
+
+  const manageRegister = async (newUser) => {
+    await axios
+      .post("http://localhost:5000/shop/users/register", newUser)
+      .then((datos) => {
+        handleUser(datos.data.token, {
+          email: datos.data.email,
+          userId: datos.data.userId,
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
     <div className="Register container">
       <form className="bg-light container rounded my-3" onSubmit={addClient}>
         <h1>Registrarse</h1>
-        <div>
+        {/* <div>
           <button className="btn btn-outline-primary col-12 my-3">
             <i className="fab fa-google"></i> Entrar con Google
           </button>
         </div>
         <div className="divider d-flex align-items-center my-2">
           <p className="text-center fw-bold mx-3 mb-0">O</p>
-        </div>
+        </div> */}
         <div className="form-group col-12 mb-2">
           <input
             type="text"
