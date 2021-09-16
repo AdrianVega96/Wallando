@@ -14,7 +14,8 @@ const Profile = (props) => {
     }
 
     useEffect(() => {
-        if (userData===""){
+        const recoverData = JSON.parse(localStorage.getItem("userData"));
+        if (!recoverData) {
             history.push("/");
         }
     }, []);

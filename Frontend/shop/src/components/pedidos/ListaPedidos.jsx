@@ -20,12 +20,13 @@ const ListaPedidos = (props) => {
       .then((datos) => console.log(datos.data))
       .catch((error) => console.log(error));
   };
-
+  console.log(userData);
   useEffect(() => {
-    if (userData === "") {
-      history.push("/");
+    const recoverData = JSON.parse(localStorage.getItem("userData"));
+    if (!recoverData) {
+        history.push("/");
     }
-    getUserOrders();
+    // getUserOrders();
   }, []);
   return (
     <div className="ListaPedidos">
