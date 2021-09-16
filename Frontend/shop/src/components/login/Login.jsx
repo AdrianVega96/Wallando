@@ -34,9 +34,6 @@ const Login = (props) => {
       email: event.target[0].value,
       password: event.target[1].value,
     });
-    setLoginEmail("");
-    setLoginPassword("");
-    history.push("/");
   };
 
   const manageLogin = async (loginData) => {
@@ -47,6 +44,9 @@ const Login = (props) => {
           email: datos.data.email,
           userId: datos.data.userId,
         });
+        setLoginEmail("");
+        setLoginPassword("");
+        history.push("/");
       })
       .catch((error) => console.log(error));
   };

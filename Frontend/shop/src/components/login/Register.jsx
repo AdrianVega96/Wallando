@@ -82,14 +82,6 @@ const Register = (props) => {
       nombre: newName,
     };
     manageRegister(newClient);
-    setNewName("");
-    setNewEmail("");
-    setNewPassword("");
-    setNewRepeatedPassword("");
-    setPasswordError(false);
-    setEmailExists(false);
-    setCheckConditions(false);
-    history.push("/");
   };
 
   const manageRegister = async (newUser) => {
@@ -100,6 +92,14 @@ const Register = (props) => {
           email: datos.data.email,
           userId: datos.data.userId,
         });
+        setNewName("");
+        setNewEmail("");
+        setNewPassword("");
+        setNewRepeatedPassword("");
+        setPasswordError(false);
+        setEmailExists(false);
+        setCheckConditions(false);
+        history.push("/");
       })
       .catch((error) => console.log(error));
   };
