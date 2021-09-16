@@ -30,12 +30,15 @@ function App() {
   const [userData, setUserData] = useState();
   const [userToken, setUserToken] = useState("");
 
-  const handleUser = (token, user, logged) => {
+  const handleUser = (token, user) => {
     setUserToken(token);
     setUserData(user);
     setIsLogged(true);
-    localStorage.setItem("userData", JSON.stringify({ userData: user, token: token}));
-  }
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({ userData: user, token: token })
+    );
+  };
 
   const filtrarProductos = (buscar) => {
     buscar = buscar.toLowerCase();
@@ -86,7 +89,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <Header />
+        <Header isLogged={isLogged} userData={userData} />
         <SideNav setCategoria={setCategoria} categoria={categoria} />
         <Switch>
           <Route path="/home" exact>
@@ -104,10 +107,10 @@ function App() {
             <ProductoID productos={listaProductos} />
           </Route>
           <Route path="/login">
-            <Login />
+            <Login handleUser={handleUser} />
           </Route>
           <Route path="/register">
-            <Register />
+            <Register handleUser={handleUser} />
           </Route>
           <Redirect to="/home"></Redirect>
         </Switch>
