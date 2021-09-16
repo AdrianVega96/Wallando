@@ -34,7 +34,7 @@ const Header = (props) => {
           <i className="fas fa-heart"></i>
         </div>
         <div>
-          <i className="fas fa-shopping-cart"></i>
+          <Link to="/cesta"><i className="fas fa-shopping-cart"></i></Link>
           {
             (props.cestaTotal > 0)?<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{props.cestaTotal}</span>: ""
           }

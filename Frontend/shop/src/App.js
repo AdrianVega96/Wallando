@@ -155,13 +155,14 @@ function App() {
     guardarCesta();
     setCestaTotal(cesta.length);
   }, [masProducto, eliminarProducto, menosProducto])
-    const userData = JSON.parse(localStorage.getItem("userData"));
-    if (userData && userData.token) {
-      setUserToken(userData.token);
-      setUserData(userData.userData);
+  useEffect(() => {
+    const recoverData = JSON.parse(localStorage.getItem("userData"));
+    if (recoverData && recoverData.token) {
+      setUserToken(recoverData.token);
+      setUserData(recoverData.userData);
       setIsLogged(true);
     }
-  }, []);
+  }, [])  
   return (
     <div className="App">
       <Router>
@@ -191,6 +192,7 @@ function App() {
           </Route>
           <Route path='/cesta' >
             <CestaProducto cesta={cesta} eliminarProducto={eliminarProducto} masProducto={masProducto} menosProducto={menosProducto} />
+          </Route>
           <Route path="/profile">
             <Profile handleLogout={handleLogout} userData={userData} userToken={userToken} />
           </Route>
