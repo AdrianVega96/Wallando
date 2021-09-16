@@ -1,0 +1,58 @@
+.App {
+  overflow: auto;
+}
+:root {
+  --spacing: 1rem;
+  --min-card-width: 15rem;
+  --back-color: #f2f2f2;
+  --color-white: rgb(252 252 252);
+  --color-font-default: #212529;
+}
+.filtro-producto {
+  display: grid;
+  grid-template-columns: minmax(12rem, 20%) 1fr;
+}
+.ListaProducto {
+  display: grid;
+  gap: var(--spacing);
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(100%, var(--min-card-width)), 1fr)
+  );
+  padding: var(--spacing);
+  background-color: var(--back-color);
+}
+.ListaProducto a {
+  color: var(--color-font-default);
+  text-decoration: none;
+}
+.ListaProducto a:hover {
+  color: var(--back-color);
+  background-color: #0d6efd;
+  box-shadow: 0px -1px 37px 0px rgba(13, 110, 253, 0.5);
+  -webkit-box-shadow: 0px -1px 37px 0px rgba(13, 110, 253, 0.5);
+  -moz-box-shadow: 0px -1px 37px 0px rgba(13, 110, 253, 0.5);
+  transition: 150ms;
+}
+.FiltroProducto {
+  background-color: var(--color-white);
+  padding: var(--spacing);
+}
+
+.ProductoID {
+  display: grid;
+  gap: var(--spacing);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  grid-auto-flow: dense;
+  padding: var(--spacing);
+  background-color: var(--color-white);
+  height: 100%;
+  border-top: 1px solid #e5dcda;
+}
+.producto-detalles {
+  width: 100%;
+  grid-column: span 2;
+}
+.producto-not-found {
+  grid-column: span 2;
+}

@@ -1,0 +1,73 @@
+.Header {
+  display: flex;
+  grid-area: Header;
+  background-color: rgb(252, 252, 252);
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  height: 90px;
+  z-index: 3;
+}
+
+.Header #logo-empresa {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.Header #logo {
+  width: 5rem;
+  height: 5rem;
+}
+
+.Header #nombre-empresa {
+  margin-right: -300px;
+}
+
+.Header #nombre-empresa h1 {
+  font-family: "Dancing Script", cursive;
+  font-weight: bolder;
+  font-size: 4rem;
+}
+
+.Header nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  width: 400px;
+}
+
+.Header .nav-principal {
+  margin-right: 20px;
+}
+
+.Header .nav-principal i {
+  position: relative;
+  font-size: 1.5rem;
+  /* color: #637279; */
+  color: #0066f0;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.Header .nav-principal i:hover {
+  transform: scale(1.2);
+}
+
+.Header .nav-principal div {
+  margin-left: 20px;
+}
+
+.Header .nav-principal p {
+  font-weight: bolder;
+  margin-left: 20px;
+}
+
+@media only screen and (max-width: 480px) {
+  .Header #nombre-empresa {
+    visibility: hidden;
+  }
+}

@@ -1,0 +1,48 @@
+.Footer {
+  display: flex;
+  grid-area: Footer;
+  background-color: rgb(252, 252, 252);
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.Footer #enlaces-redes-sociales {
+  width: 100px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.Footer #enlaces-redes-sociales a,
+.Footer #enlace-contacto p {
+  color: black;
+  text-decoration-line: none;
+  font-size: 1rem;
+  margin-top: 10px;
+  transition: 1s;
+}
+
+.Footer #enlaces-redes-sociales a i:hover {
+  transform: scale(1.2);
+}
+
+.Footer #enlace-contacto p:hover {
+  cursor: pointer;
+}
+
+.Footer #informacion-contacto {
+  padding-top: 10px;
+  text-align: center;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 4px;
+}
+
+@media only screen and (max-width: 480px) {
+  .Footer #informacion-contacto {
+    visibility: hidden;
+  }
+}

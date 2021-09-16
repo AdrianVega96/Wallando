@@ -1,0 +1,28 @@
+.Register form {
+    /* position: absolute; */
+    width: 400px;   
+}
+
+.Register form a {
+    color: gray;
+}
+
+.Register form label {
+    font-size: 0.75rem;
+}
+
+.Register .divider:after,
+.Register .divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgb(219, 219, 219);
+}
+.Register .h-custom {
+  height: calc(100% - 73px);
+}
+
+.Register .text-error {
+  font-weight: bolder;
+  color: rgb(226, 6, 6);
+}

@@ -1,0 +1,24 @@
+.Login form {
+    /* position: absolute; */
+    width: 400px;   
+}
+
+.Login form a {
+    color: gray;
+}
+
+.Login .divider:after,
+.Login .divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgb(219, 219, 219);
+}
+.Login .h-custom {
+  height: calc(100% - 73px);
+}
+
+.Login .text-error {
+  font-weight: bolder;
+  color: rgb(226, 6, 6);
+}
