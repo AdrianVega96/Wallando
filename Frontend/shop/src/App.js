@@ -8,6 +8,7 @@ import Register from "./components/login/Register";
 import FiltroProducto from "./components/producto/FiltroProducto";
 import ListaProducto from "./components/producto/ListaProducto";
 import ProductoID from "./components/producto/ProductoID";
+import CestaProducto from "./components/producto/CestaProducto";
 import {
   BrowserRouter as Router,
   Route,
@@ -16,6 +17,9 @@ import {
 } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import ReactNotification from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import { store } from 'react-notifications-component';
 
 function App() {
   // Productos
@@ -25,6 +29,10 @@ function App() {
   const [categoria, setCategoria] = useState("");
   const [busqueda, setBusqueda] = useState("");
   const [ordenar, setOrdenar] = useState("");
+  // Cesta
+  const walandoStorage = window.localStorage;
+  const [cesta, setCesta] = useState((walandoStorage.productos) ? JSON.parse(walandoStorage.productos) : []);
+  const [cestaTotal, setCestaTotal] = useState(0);
   // Usuarios
   const [isLogged, setIsLogged] = useState(false);
   const [userData, setUserData] = useState();
@@ -83,13 +91,67 @@ function App() {
       })
       .catch((error) => console.log(error));
   };
+  // controladores de cesta
+  const guardarCesta = () => {
+    let actualizarCesta = [...cesta]
+    walandoStorage.setItem("productos", JSON.stringify(actualizarCesta));
+  }
+
+  const eliminarProducto = (producto) => {
+    const existe = cesta.find((p) => p._id === producto._id);
+    if (existe) {
+      setCesta(cesta.filter((p) => p._id !== producto._id));
+    } else {
+      console.error("Producto no exite");
+    }
+  };
+
+  const menosProducto = (producto) => {
+    const existe = cesta.find((p) => p._id === producto._id);
+    if (existe.cantidad === 1) {
+      setCesta(cesta.filter((p) => p._id !== producto._id));
+      store.addNotification({
+        title: "Carrito",
+        message: "Has eliminado " + producto.nombre + "del carrito",
+        type: "info",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animate__animated", "animate__fadeIn"],
+        animationOut: ["animate__animated", "animate__fadeOut"],
+        dismiss: {
+          duration: 3000,
+          onScreen: true
+        }
+      });
+    } else {
+      setCesta(cesta.map((p) => {
+        return p._id === producto._id ? { ...existe, cantidad: existe.cantidad - 1 } : p
+      }));
+    }
+  };
+
+  const masProducto = (producto) => {
+    const existe = cesta.find((p) => p._id === producto._id);
+    if (existe) {
+      setCesta(cesta.map((p) => {
+        return (p._id === producto._id) ? { ...existe, cantidad: existe.cantidad + 1 } : p
+      }));
+    } else {
+      setCesta([...cesta, { ...producto, cantidad: 1 }]);
+    }
+  };
 
   useEffect(() => getAllProducts(), []);
   useEffect(() => filtrarProductos(busqueda), [categoria, busqueda]);
+  useEffect(() => {
+    guardarCesta();
+    setCestaTotal(cesta.length);
+  }, [masProducto, eliminarProducto, menosProducto])
   return (
     <div className="App">
       <Router>
-        <Header isLogged={isLogged} userData={userData} />
+        <Header isLogged={isLogged} userData={userData} cestaTotal={cestaTotal} />
+        <ReactNotification />
         <SideNav setCategoria={setCategoria} categoria={categoria} />
         <Switch>
           <Route path="/home" exact>
@@ -104,13 +166,16 @@ function App() {
             </div>
           </Route>
           <Route path="/producto/:pid">
-            <ProductoID productos={listaProductos} />
+            <ProductoID productos={listaProductos} masProducto={masProducto} />
           </Route>
           <Route path="/login">
             <Login handleUser={handleUser} />
           </Route>
           <Route path="/register">
             <Register handleUser={handleUser} />
+          </Route>
+          <Route path='/cesta' >
+            <CestaProducto cesta={cesta} eliminarProducto={eliminarProducto} masProducto={masProducto} menosProducto={menosProducto} />
           </Route>
           <Redirect to="/home"></Redirect>
         </Switch>

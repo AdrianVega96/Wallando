@@ -3,7 +3,7 @@ import "./Header.css";
 import imagen from "./imagenes/logo.png";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = (props) => {
   const manageLogin = function () {};
   return (
     <div className="Header">
@@ -26,6 +26,9 @@ const Header = () => {
         </div>
         <div>
           <i className="fas fa-shopping-cart"></i>
+          {
+            (props.cestaTotal > 0)?<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{props.cestaTotal}</span>: ""
+          }
         </div>
       </nav>
     </div>
