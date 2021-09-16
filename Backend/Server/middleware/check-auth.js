@@ -6,7 +6,7 @@ const autorizacion = (req, res, next) => {
     if (!token) {
       throw new Error("Fallo de autenticación");
     }
-    decodedToken = jwt.verify(token, "clave-segura-token");
+    decodedToken = jwt.verify(token, process.env.JWT_KEY);
     req.userData = {
       userId: decodedToken.userId,
     };

@@ -76,7 +76,7 @@ const createUser = async (req, res, next) => {
           userId: newUser.id,
           email: newUser.email,
         },
-        "clave-segura-token",
+        process.env.JWT_KEY,
         {
           expiresIn: "1h",
         }
@@ -139,7 +139,7 @@ const loginUser = async (req, res, next) => {
         userId: userExists.id,
         email: userExists.email,
       },
-      "clave-segura-token",
+      process.env.JWT_KEY,
       {
         expiresIn: "1h",
       }

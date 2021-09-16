@@ -108,14 +108,14 @@ const Register = (props) => {
     <div className="Register container">
       <form className="bg-light container rounded my-3" onSubmit={addClient}>
         <h1>Registrarse</h1>
-        <div>
+        {/* <div>
           <button className="btn btn-outline-primary col-12 my-3">
             <i className="fab fa-google"></i> Entrar con Google
           </button>
         </div>
         <div className="divider d-flex align-items-center my-2">
           <p className="text-center fw-bold mx-3 mb-0">O</p>
-        </div>
+        </div> */}
         <div className="form-group col-12 mb-2">
           <input
             type="text"
