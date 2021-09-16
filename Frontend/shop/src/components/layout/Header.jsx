@@ -4,7 +4,6 @@ import imagen from "./imagenes/logo.png";
 import { Link } from "react-router-dom";
 
 const Header = (props) => {
-  const manageLogin = function () {};
   const isLogged = props.isLogged;
   const userData = props.userData;
   return (

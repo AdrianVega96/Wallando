@@ -1,6 +1,12 @@
 import { store } from 'react-notifications-component';
 
 const CestaProducto = (props) => {
+    // Esto lo he puesto buscando una manera de poder tener el precio total que muestras en resumen de pedido
+    // puesto que se necesita para hacer el post del pedido.
+    // let total;
+    // const getTotal = (suma) => {
+    //     total = suma;
+    // }
     return (
         <div className="CestaProducto bg-white h-100">
             <div className="cart">

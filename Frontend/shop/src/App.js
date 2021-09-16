@@ -21,6 +21,7 @@ import axios from "axios";
 import ReactNotification from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import { store } from 'react-notifications-component';
+import ListaPedidos from "./components/pedidos/ListaPedidos";
 
 function App() {
   // Productos
@@ -195,6 +196,9 @@ function App() {
           </Route>
           <Route path="/profile">
             <Profile handleLogout={handleLogout} userData={userData} userToken={userToken} />
+          </Route>
+          <Route path="/pedidos">
+            <ListaPedidos />
           </Route>
           <Redirect to="/home"></Redirect>
         </Switch>
