@@ -2,8 +2,10 @@ import React from "react";
 import "./Login.css";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 
 const Login = (props) => {
+  const handleUser = props.handleUser;
   const history = useHistory();
 
   const [showRememberPass, setShowRememberPass] = useState(false);
@@ -28,32 +30,40 @@ const Login = (props) => {
       setEmptyFields(true);
       return null;
     }
-    // const client = clients.find((client) => client.email === loginEmail);
-    // if (client !== undefined) {
-    //   if (client.contraseña === loginPassword) {
-    //     history.push("/home");
-    //     alert("Usuario logeado");
-    //   } else {
-    //     return null;
-    //   }
-    // }
+    manageLogin({
+      email: event.target[0].value,
+      password: event.target[1].value,
+    });
     setLoginEmail("");
     setLoginPassword("");
+    history.push("/");
+  };
+
+  const manageLogin = async (loginData) => {
+    await axios
+      .post("http://localhost:5000/shop/users/login", loginData)
+      .then((datos) => {
+        handleUser(datos.data.token, {
+          email: datos.data.email,
+          userId: datos.data.userId,
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
     <div className="Login container">
       <form className="bg-light container rounded my-3" onSubmit={manageSubmit}>
         <h1>Iniciar sesión</h1>
-        <div>
+        {/* <div>
           <button className="btn btn-outline-primary col-12 my-3">
             <i className="fab fa-google"></i> Entrar con Google
           </button>
         </div>
         <div className="divider d-flex align-items-center my-3">
           <p className="text-center fw-bold mx-3 mb-0">O</p>
-        </div>
-        {showRememberPass ? (
+        </div> */}
+        {/* {showRememberPass ? (
           <div className="input-group col-12 mb-2">
             <input
               type="text"
@@ -72,7 +82,7 @@ const Login = (props) => {
               </button>
             </div>
           </div>
-        ) : null}
+        ) : null} */}
         {!showRememberPass ? (
           <div>
             <div className="form-group col-12">
@@ -97,9 +107,9 @@ const Login = (props) => {
                 onChange={manageLoginPassword}
               />
             </div>
-            <p className="btn" onClick={() => setShowRememberPass(true)}>
+            {/* <p className="btn" onClick={() => setShowRememberPass(true)}>
               ¿Ha olvidado su contraseña?
-            </p>
+            </p> */}
             {emptyFields ? (
               <p className="text-error">No puede dejar campos en blanco</p>
             ) : null}

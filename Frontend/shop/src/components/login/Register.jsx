@@ -2,8 +2,12 @@ import React from "react";
 import "./Register.css";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
+import axios from "axios";
 
 const Register = (props) => {
+  const history = useHistory();
+  const handleUser = props.handleUser;
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -64,10 +68,6 @@ const Register = (props) => {
       setEmptyFields(true);
       return null;
     }
-    // if (clients.some((client) => client.email === newEmail)) {
-    //   setEmailExists(true);
-    //   return null;
-    // }
     if (newPassword !== newRepeatedPassword) {
       setPasswordError(true);
       return null;
@@ -77,19 +77,11 @@ const Register = (props) => {
       return null;
     }
     const newClient = {
-      contraseña: newPassword,
+      password: newPassword,
       email: newEmail,
-      datosEnvio: {
-        nombre: newName,
-        direccion: "",
-        codigoPostal: "",
-      },
-      credito: 0,
-      carrito: [],
-      compras: [],
-      admin: false,
+      nombre: newName,
     };
-    // setClients([...clients, newClient]);
+    manageRegister(newClient);
     setNewName("");
     setNewEmail("");
     setNewPassword("");
@@ -97,6 +89,19 @@ const Register = (props) => {
     setPasswordError(false);
     setEmailExists(false);
     setCheckConditions(false);
+    history.push("/");
+  };
+
+  const manageRegister = async (newUser) => {
+    await axios
+      .post("http://localhost:5000/shop/users/register", newUser)
+      .then((datos) => {
+        handleUser(datos.data.token, {
+          email: datos.data.email,
+          userId: datos.data.userId,
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   return (

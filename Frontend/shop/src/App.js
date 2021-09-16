@@ -86,6 +86,13 @@ function App() {
 
   useEffect(() => getAllProducts(), []);
   useEffect(() => filtrarProductos(busqueda), [categoria, busqueda]);
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem('userData'));
+    if (userData && userData.token) {
+      setUserToken(userData.token);
+      setUserData(userData.userData);
+  }
+}, []);
   return (
     <div className="App">
       <Router>
@@ -111,6 +118,9 @@ function App() {
           </Route>
           <Route path="/register">
             <Register handleUser={handleUser} />
+          </Route>
+          <Route path="/profile">
+
           </Route>
           <Redirect to="/home"></Redirect>
         </Switch>
