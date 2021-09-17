@@ -1,0 +1,16 @@
+.ListaPedidos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.Pedido {
+  background-color: rgb(252, 252, 252);
+  width: 95%;
+}
+
+.Pedido .HeaderPedido {
+  display: flex;
+  justify-content: space-evenly;
+}
