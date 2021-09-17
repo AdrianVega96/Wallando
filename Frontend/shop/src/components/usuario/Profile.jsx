@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 const Profile = (props) => {
   const handleLogout = props.handleLogout;
-  const userData = props.userData;
-  const userToken = props.userToken;
+  // const userData = props.userData;
+  // const userToken = props.userToken;
   const history = useHistory();
   const logout = () => {
     handleLogout();
