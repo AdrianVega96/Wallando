@@ -18,9 +18,9 @@ import {
 } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ReactNotification from 'react-notifications-component';
-import 'react-notifications-component/dist/theme.css';
-import { store } from 'react-notifications-component';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+import { store } from "react-notifications-component";
 import ListaPedidos from "./components/pedidos/ListaPedidos";
 
 function App() {
@@ -33,7 +33,9 @@ function App() {
   const [ordenar, setOrdenar] = useState("");
   // Cesta
   const walandoStorage = window.localStorage;
-  const [cesta, setCesta] = useState((walandoStorage.productos) ? JSON.parse(walandoStorage.productos) : []);
+  const [cesta, setCesta] = useState(
+    walandoStorage.productos ? JSON.parse(walandoStorage.productos) : []
+  );
   const [cestaTotal, setCestaTotal] = useState(0);
   // Usuarios
   const [isLogged, setIsLogged] = useState(false);
@@ -46,7 +48,11 @@ function App() {
     setIsLogged(true);
     localStorage.setItem(
       "userData",
-      JSON.stringify({ userData: user, token: token })
+      JSON.stringify({
+        userData: user,
+        token: token,
+        loginDate: new Date().getTime(),
+      })
     );
   };
 
@@ -102,9 +108,9 @@ function App() {
   };
   // controladores de cesta
   const guardarCesta = () => {
-    let actualizarCesta = [...cesta]
+    let actualizarCesta = [...cesta];
     walandoStorage.setItem("productos", JSON.stringify(actualizarCesta));
-  }
+  };
 
   const eliminarProducto = (producto) => {
     const existe = cesta.find((p) => p._id === producto._id);
@@ -129,22 +135,30 @@ function App() {
         animationOut: ["animate__animated", "animate__fadeOut"],
         dismiss: {
           duration: 3000,
-          onScreen: true
-        }
+          onScreen: true,
+        },
       });
     } else {
-      setCesta(cesta.map((p) => {
-        return p._id === producto._id ? { ...existe, cantidad: existe.cantidad - 1 } : p
-      }));
+      setCesta(
+        cesta.map((p) => {
+          return p._id === producto._id
+            ? { ...existe, cantidad: existe.cantidad - 1 }
+            : p;
+        })
+      );
     }
   };
 
   const masProducto = (producto) => {
     const existe = cesta.find((p) => p._id === producto._id);
     if (existe) {
-      setCesta(cesta.map((p) => {
-        return (p._id === producto._id) ? { ...existe, cantidad: existe.cantidad + 1 } : p
-      }));
+      setCesta(
+        cesta.map((p) => {
+          return p._id === producto._id
+            ? { ...existe, cantidad: existe.cantidad + 1 }
+            : p;
+        })
+      );
     } else {
       setCesta([...cesta, { ...producto, cantidad: 1 }]);
     }
@@ -155,19 +169,26 @@ function App() {
   useEffect(() => {
     guardarCesta();
     setCestaTotal(cesta.length);
-  }, [masProducto, eliminarProducto, menosProducto])
+  }, [masProducto, eliminarProducto, menosProducto]);
   useEffect(() => {
     const recoverData = JSON.parse(localStorage.getItem("userData"));
     if (recoverData && recoverData.token) {
       setUserToken(recoverData.token);
       setUserData(recoverData.userData);
       setIsLogged(true);
+      if (recoverData.loginDate + 3600000 < new Date().getTime()) {
+        handleLogout();
+      }
     }
-  }, [])  
+  }, []);
   return (
     <div className="App">
       <Router>
-        <Header isLogged={isLogged} userData={userData} cestaTotal={cestaTotal} />
+        <Header
+          isLogged={isLogged}
+          userData={userData}
+          cestaTotal={cestaTotal}
+        />
         <ReactNotification />
         <SideNav setCategoria={setCategoria} categoria={categoria} />
         <Switch>
@@ -191,14 +212,23 @@ function App() {
           <Route path="/register">
             <Register handleUser={handleUser} />
           </Route>
-          <Route path='/cesta' >
-            <CestaProducto cesta={cesta} eliminarProducto={eliminarProducto} masProducto={masProducto} menosProducto={menosProducto} />
+          <Route path="/cesta">
+            <CestaProducto
+              cesta={cesta}
+              eliminarProducto={eliminarProducto}
+              masProducto={masProducto}
+              menosProducto={menosProducto}
+            />
           </Route>
           <Route path="/profile">
-            <Profile handleLogout={handleLogout} userData={userData} userToken={userToken} />
+            <Profile
+              handleLogout={handleLogout}
+              userData={userData}
+              userToken={userToken}
+            />
           </Route>
           <Route path="/pedidos">
-            <ListaPedidos userData={userData} userToken={userToken}/>
+            <ListaPedidos userData={userData} userToken={userToken} />
           </Route>
           <Redirect to="/home"></Redirect>
         </Switch>

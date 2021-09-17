@@ -8,6 +8,7 @@ import axios from "axios";
 const Register = (props) => {
   const history = useHistory();
   const handleUser = props.handleUser;
+  const setLoginDate = props.setLoginDate;
   const [newName, setNewName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
