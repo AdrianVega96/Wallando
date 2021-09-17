@@ -9,7 +9,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CardMedia, Card, CardContent } from "@mui/material";
-import { Box, width } from "@mui/system";
+import { Box } from "@mui/system";
+import { store } from "react-notifications-component";
 
 const ListaPedidos = (props) => {
   const history = useHistory();
@@ -84,6 +85,19 @@ const Pedido = (props) => {
       })
       .then((datos) => {
         setOrderedProducts([]);
+        store.addNotification({
+          title: "Pedido",
+          message: "Has eliminado el pedido" + props.pedido._id,
+          type: "success",
+          insert: "top",
+          container: "top-center",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {
+            duration: 1000,
+            onScreen: true,
+          },
+        });
       })
       .catch((error) => console.log(error));
   };
