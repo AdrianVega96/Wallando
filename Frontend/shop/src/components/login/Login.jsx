@@ -6,6 +6,7 @@ import axios from "axios";
 
 const Login = (props) => {
   const handleUser = props.handleUser;
+  const setLoginDate = props.setLoginDate;
   const history = useHistory();
 
   const [showRememberPass, setShowRememberPass] = useState(false);
