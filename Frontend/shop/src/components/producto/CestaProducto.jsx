@@ -1,12 +1,75 @@
 import { store } from 'react-notifications-component';
+import axios from "axios";
 
 const CestaProducto = (props) => {
+    const userData = props.userData;
+    const userToken = props.userToken;
     // Esto lo he puesto buscando una manera de poder tener el precio total que muestras en resumen de pedido
     // puesto que se necesita para hacer el post del pedido.
     // let total;
     // const getTotal = (suma) => {
     //     total = suma;
     // }
+    const prepararPedido = () => {
+        let suma = 0;
+        const productos = props.cesta.map(producto => {
+            suma += producto.precioEuros * producto.cantidad;
+            return { producto: producto._id, cantidad: producto.cantidad };
+        });
+        return {
+            productos: productos,
+            usuario: userData.userId,
+            precioTotal: suma
+        };
+    }
+
+    const hacerPedido = async (pedido) => {
+        if (userData.userId !== undefined) {
+            await axios
+                .post("http://localhost:5000/shop/orders/", pedido, {
+                    headers: {
+                        Authorization: "Bearer " + userToken,
+                    },
+                })
+                .then((datos) => {
+                    props.limpiarCesta();
+                    notificarPedidoRealizado();
+                })
+                .catch((error) => "No se ha podido realizar el pedido");
+        } else {
+            notificarUsuarioNotLogged();
+        }
+    }
+    const notificarPedidoRealizado = () => {
+        store.addNotification({
+            title: "Pedido",
+            message: "Pedido realizado",
+            type: "success",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 3000,
+                onScreen: true
+            }
+        });
+    }
+    const notificarUsuarioNotLogged = () => {
+        store.addNotification({
+            title: "Usario no esta Logueado",
+            message: "Por favor hacer login para poder realizar el pedido",
+            type: "warning",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+                duration: 3000,
+                onScreen: true
+            }
+        });
+    } 
     return (
         <div className="CestaProducto bg-white h-100">
             <div className="cart">
@@ -22,7 +85,7 @@ const CestaProducto = (props) => {
                 </div>
             </div>
             {
-                (props.cesta.length > 0) ? <ResumenPedido cesta={props.cesta} /> : null
+                (props.cesta.length > 0) ? <ResumenPedido cesta={props.cesta} prepararPedido={prepararPedido} hacerPedido={hacerPedido}/> : null
             }
 
         </div>
@@ -70,18 +133,23 @@ const ItemProducto = (props) => {
 
 const ResumenPedido = (props) => {
     let suma = 0;
+    const handleOrder = (e) => {
+        e.preventDefault();
+        const pedido = props.prepararPedido();
+        props.hacerPedido(pedido);
+    }
     return (
         <div className="ResumenPedido">
             {
                 props.cesta.map(producto => {
                     suma += producto.precioEuros * producto.cantidad;
                     return (
-                        <div className="precio-cantidad">{producto.cantidad} x {producto.precioEuros}&euro;</div>
+                        <div key={producto._id} className="precio-cantidad">{producto.cantidad} x {producto.precioEuros}&euro;</div>
                     )
                 })
             }
             <div className="precio-total"><span className="texto">Total</span> <span className="total">{suma}&euro;</span></div>
-            <button type="button" className="btn btn-primary">Realizar Pedido</button>
+            <button onClick={e => handleOrder(e)} type="button" className="btn btn-primary">Realizar Pedido</button>
         </div>
     )
 }

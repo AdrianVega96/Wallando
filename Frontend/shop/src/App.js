@@ -120,6 +120,10 @@ function App() {
       console.error("Producto no exite");
     }
   };
+  const limpiarCesta = () => {
+    setCesta([]);
+    walandoStorage.removeItem("productos");
+  }
 
   const menosProducto = (producto) => {
     const existe = cesta.find((p) => p._id === producto._id);
@@ -169,7 +173,7 @@ function App() {
   useEffect(() => {
     guardarCesta();
     setCestaTotal(cesta.length);
-  }, [masProducto, eliminarProducto, menosProducto]);
+  }, [masProducto, eliminarProducto, menosProducto, limpiarCesta]);
   useEffect(() => {
     const recoverData = JSON.parse(localStorage.getItem("userData"));
     if (recoverData && recoverData.token) {
@@ -218,6 +222,9 @@ function App() {
               eliminarProducto={eliminarProducto}
               masProducto={masProducto}
               menosProducto={menosProducto}
+              limpiarCesta={limpiarCesta}
+              userData={userData}
+              userToken={userToken}
             />
           </Route>
           <Route path="/profile">
